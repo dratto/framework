@@ -1,3 +1,4 @@
+'use strict';
 var mozjpeg = require('imagemin-mozjpeg');
 module.exports = function (grunt) {
     grunt.initConfig({
@@ -8,7 +9,7 @@ module.exports = function (grunt) {
             my_target: {
                 files: {
                     'public/js/scripts.js' : [ 
-//                            'belcran/site/assets/_js/jquery.js',
+                            'app/resources/assets/js/jquery.js',
                         ]
                 }
             }
@@ -21,30 +22,30 @@ module.exports = function (grunt) {
             target: {
                 files: {
                     'public/css/style.css': [                        
-//                        'belcran/site/assets/_css/style.css',
+                        'app/resources/assets/css/style.css',
                     ]
                 }
             }
         }, //cssmin
         imagemin: {
-            static: {
-                options: {
-                    optimizationLevel: 7,
-                    svgoPlugins: [{ removeViewBox: false }],
-                    use: [mozjpeg()]
-                },
-                files: {
-//                    'public/images/banners/banner1.jpg' : 'belcran/site/assets/_img/freshbusiness.jpg', 
-                }
-            }        
+            dynamic: {
+                files: [{
+//                    optimizationLevel: 10,
+                    expand: true,                  // Enable dynamic expansion
+                    cwd: 'app/resources/assets/img/',                   // Src matches are relative to this path
+                    src: ['**/*.{png,jpg,gif}'],   // Actual patterns to match
+                    dest: 'public/img/'                  // Destination path prefix
+                }]
+            }
         }, //imagemin
         watch : {
             dist : {
                 files : [
-                    'belcran/site/assets/_js/**/*',
-                    'belcran/site/assets/_css/**/*'
+                    'app/resources/assets/js/**/*',
+                    'app/resources/assets/css/**/*',
+                    'app/resources/assets/img/**/*'
                 ],
-                tasks : [ 'uglify', 'cssmin' ]
+                tasks : [ 'uglify', 'cssmin', 'imagemin' ]
             }
         } // watch
     });    

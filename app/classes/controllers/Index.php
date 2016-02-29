@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\Response;
+use \DR\Controller;
 
 /**
  * Description of Index
@@ -11,15 +12,22 @@ use \Symfony\Component\HttpFoundation\Response;
  * @author Diogo Ratto <contato@diogoratto.com.br>
  */
 
-class Index 
+class Index extends Controller
 {
-    
-    public function index(Request $request, Response $response)
-    {
-        echo "Hello World!";
-        
-        return $response;
+    public function __construct(Request $request, Response $response) {
+        parent::__construct($request, $response);
     }
     
-    
+    public function index(Request $request, Response $response, $args)
+    {        
+        $pessoas = [
+            [
+                'nome' => ($args['nome']) ? $args['nome'] : 'Diogo Ratto', 
+                'idade' => '21 anos'
+            ],
+        ];
+        $title = "Titulo";
+        
+        return $this->view('index', ['pessoas' => $pessoas, 'title' => $title]);
+    }        
 }
